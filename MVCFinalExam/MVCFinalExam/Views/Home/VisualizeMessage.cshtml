@@ -1,0 +1,21 @@
+﻿@if (ViewBag.Price != null)
+{
+    <div>@ViewBag.Price</div>
+
+}
+@{
+    var dictionary = ViewBag.Dic;
+    string actionToCall = ViewBag.CallAction;
+    using (Html.BeginForm(actionToCall, "Home", new { dictionary = dictionary }, FormMethod.Post))
+    {
+
+
+        <input type="submit" value="Confirm Order?" id="pay" />
+
+
+    }}
+<script>
+    $("#pay").on("click", (event) => {
+        alert("Order Confirmed!");
+    })
+</script>

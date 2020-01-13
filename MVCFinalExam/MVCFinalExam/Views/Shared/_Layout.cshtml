@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Applicazione ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Nome dell'applicazione", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            @if (HttpContext.Current.User.Identity.Name != "")
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @if (Session["usertype"].Equals("0"))
+                        {
+                            <li>@Html.ActionLink("Place Order", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Out of Stock Request", "OutOfStockRequest", "Home")</li>
+                            <li>@Html.ActionLink("Your Orders", "YourOrders", "Home")</li>
+                            <li>@Html.ActionLink("Your Requests", "YourRequests", "Home")</li>
+                            <li>@Html.ActionLink("Search Books", "Search", "Home")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Manage Client Orders and Requests", "Index", "SellerArea")</li>
+                            <li>@Html.ActionLink("Search Books", "Search", "Home")</li>
+                        }
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">@Html.ActionLink("Log Out", "LogOut", "Authentication")</li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">@Html.ActionLink("Login", "Login", "Authentication")</li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Applicazione ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

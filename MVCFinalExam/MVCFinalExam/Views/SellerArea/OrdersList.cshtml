@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MVCFinalExam.Models.ModelOrder>
+
+<h2>Orders</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Person1.Mail)
+        </th>
+        <th>
+            @Html.DisplayName("Address")
+        </th>
+        <th>
+            @Html.DisplayName("City")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.ISBN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Is in Charge?
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Person.Mail)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Person.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Person.City)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Id_Book)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantity)
+    </td>
+    <td>
+        @{
+            string res = "";
+            if (item.InCharge == 1)
+            {
+                res = item.Id_Seller== int.Parse(Session["iduser"].ToString()) ? "Yes, Yours" : "Yes, Other's";
+            }
+            else
+            {
+                res = "No";
+            }
+        }
+        @res
+    </td>
+    <td>
+        @if (item.InCharge == 0)
+        {
+            @Html.ActionLink("Take Care", "TakeCare", new { type = "orders", id = item.Id_Book, iduser = item.Id_Person })
+        }
+        else if (item.Id_Seller== int.Parse(Session["iduser"].ToString()))
+        {
+            @Html.ActionLink("Leave Care", "LeaveCare", new { type = "orders", id = item.Id_Book, iduser = item.Id_Person })
+
+        }
+    </td>
+</tr>
+    }
+
+</table>

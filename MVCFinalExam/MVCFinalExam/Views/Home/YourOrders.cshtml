@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVCFinalExam.Models.ModelOrder>
+
+@{
+    ViewBag.Title = "Your Orders";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+<h4 class="alert-info">@ViewBag.Msg</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.ISBN)
+        </th>   
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Book.ISBN)
+    </td>   
+    <td>
+        @Html.DisplayFor(modelItem => item.Book.Author)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Book.Title)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantity)
+    </td>
+    @if (item.InCharge == 1)
+    {
+        <td>
+            Sent - Taken in Charge By Seller
+        </td>
+    }
+    else
+    {
+        <td>
+            Order Received
+        </td>
+    }
+
+    <td>
+        @Html.ActionLink("Delete", "DeleteOrder", new { book_id = item.Id_Book, user = item.Id_Person })
+    </td>
+</tr>
+    }
+
+</table>

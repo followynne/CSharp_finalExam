@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MVCFinalExam.Models.ModelBook>
+
+@{
+    ViewBag.Title = "Search";
+}
+<head>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+</head>
+
+<h2>Search Books</h2>
+<h3>Instructions: fill the input data you want to search. Every input given will be used to filter the books saved in the database.</h3>
+<p>Please input the data you're interested in.</p>
+@using (Ajax.BeginForm("SearchResult", "Home", new AjaxOptions { UpdateTargetId = "datas", HttpMethod = "Post" }))
+{
+    <div class="container"></div>
+    <div class="row"></div>
+    <p class="col">
+        <label for="ISBN">ISBN</label>
+        <input type="number" name="ISBN" min="1" />
+
+    </p>
+    <p class="col">
+        <label for="Title">Title</label>
+        <input type="text" name="Title" />
+    </p>
+    <p class="col">
+        <label for="Author">Author</label>
+        <input type="text" name="Author" />
+    </p>
+    <p class="col">
+        <label for="MinPrice">MinPrice</label>
+        <input type="number" name="MinPrice" min="1" />
+    </p>
+    <p class="col">
+        <label for="MaxPrice">MaxPrice</label>
+        <input type="number" name="MaxPrice" min="1" />
+    </p>
+    <input type="submit" />
+}
+
+<div id="datas"></div>

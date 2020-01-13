@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6a1aaf2e8ee0469db16d788912a366f4" Name="Diagram1">
+        <EntityTypeShape EntityType="LibraryModel.Book" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Order" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Person" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Request" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="LibraryModel.FK_Order_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK_Request_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK_Order_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK_Order_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK_Request_IdSeller" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK_Request_Person" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

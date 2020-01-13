@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVCFinalExam.Models.ModelBook>
+@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+</head>
+<h2>Place a Out of Stock Request</h2>
+<h3>Placing a request means the seller will place a new book stock to the supplier.</h3>
+<h4 class="alert-info">@ViewBag.Msg</h4>
+@using (Ajax.BeginForm("VisualizeMessage", "Home", new { act = "PostRequest" }, new AjaxOptions() { UpdateTargetId = "datas", HttpMethod = "Post" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ISBN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    <input type="number" name=@item.ISBN.ToString() />
+                    <input type="hidden" name=@item.ISBN.ToString() value="0" />
+                    <input type="checkbox" name=@item.ISBN.ToString() value="1" />
+                </td>
+            </tr>
+        }
+
+    </table>
+    <input type="submit" value="Guarda il Prezzo" />
+}
+
+<div class="row" id="datas"></div>

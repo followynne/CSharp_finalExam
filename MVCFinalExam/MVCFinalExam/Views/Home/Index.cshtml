@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MVCFinalExam.Models.ModelBook>
+@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+</head>
+
+<h2>Place a order</h2>
+<h3>Instructions: if you already ordered a book and you send a new quantity request for it, the response could be one of those: 1) if book quantity is enough, your old book order quantity will get updated 2) if book quantity is not enough, the old book order quantity will be kept.</h3>
+<h3>Please check at Your Orders your orders.</h3>
+<h4 class="alert-info">@ViewBag.Msg</h4>
+
+@using (Ajax.BeginForm("VisualizeMessage", "Home",  new { act = "PostOrder" }, new AjaxOptions() { UpdateTargetId = "datas", HttpMethod = "Post" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ISBN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    <input type="number" name=@item.ISBN.ToString()  min="1" />
+                    <input type="hidden" name=@item.ISBN.ToString() value="0" />
+                    <input type="checkbox" name=@item.ISBN.ToString() value="1" />
+                </td>
+            </tr>
+        }
+
+    </table>
+    <input type="submit" value="Check Total Price of Your Order" />
+}
+<div class="alert-info" id="datas"></div>

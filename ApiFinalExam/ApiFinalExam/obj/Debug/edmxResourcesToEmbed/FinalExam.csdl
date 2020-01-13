@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="ISBN" />
+    </Key>
+    <Property Name="ISBN" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Author" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_Book" FromRole="Book" ToRole="Order" />
+    <NavigationProperty Name="Request" Relationship="Self.FK_Request_Book" FromRole="Book" ToRole="Request" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id_Person" />
+      <PropertyRef Name="Id_Book" />
+    </Key>
+    <Property Name="Id_Person" Type="Int32" Nullable="false" />
+    <Property Name="Id_Book" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="InCharge" Type="Int32" Nullable="false" />
+    <Property Name="Id_Seller" Type="Int32" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Order_Book" FromRole="Order" ToRole="Book" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_Order_Person" FromRole="Order" ToRole="Person" />
+    <NavigationProperty Name="Person1" Relationship="Self.FK_Order_ToTable" FromRole="Order" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IsSeller" Type="Int32" Nullable="false" />
+    <Property Name="Mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Pwd" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CAP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_Person" FromRole="Person" ToRole="Order" />
+    <NavigationProperty Name="Order1" Relationship="Self.FK_Order_ToTable" FromRole="Person" ToRole="Order" />
+    <NavigationProperty Name="Request" Relationship="Self.FK_Request_IdSeller" FromRole="Person" ToRole="Request" />
+    <NavigationProperty Name="Request1" Relationship="Self.FK_Request_Person" FromRole="Person" ToRole="Request" />
+  </EntityType>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="Id_Person" />
+      <PropertyRef Name="Id_Book" />
+    </Key>
+    <Property Name="Id_Person" Type="Int32" Nullable="false" />
+    <Property Name="Id_Book" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="InCharge" Type="Int32" Nullable="false" />
+    <Property Name="Id_Seller" Type="Int32" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Request_Book" FromRole="Request" ToRole="Book" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_Request_IdSeller" FromRole="Request" ToRole="Person" />
+    <NavigationProperty Name="Person1" Relationship="Self.FK_Request_Person" FromRole="Request" ToRole="Person" />
+  </EntityType>
+  <Association Name="FK_Order_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="ISBN" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Id_Book" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="ISBN" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="Id_Book" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Id_Person" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_ToTable">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Id_Seller" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_IdSeller">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="Id_Seller" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="Id_Person" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibraryEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Book" EntityType="Self.Book" />
+    <EntitySet Name="Order" EntityType="Self.Order" />
+    <EntitySet Name="Person" EntityType="Self.Person" />
+    <EntitySet Name="Request" EntityType="Self.Request" />
+    <AssociationSet Name="FK_Order_Book" Association="Self.FK_Order_Book">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Book" Association="Self.FK_Request_Book">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Person" Association="Self.FK_Order_Person">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_ToTable" Association="Self.FK_Order_ToTable">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_IdSeller" Association="Self.FK_Request_IdSeller">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Person" Association="Self.FK_Request_Person">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
